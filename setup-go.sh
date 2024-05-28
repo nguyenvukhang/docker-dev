@@ -9,7 +9,4 @@ curl -fsSLO https://go.dev/dl/$GO_TARGZ
 rm -rf /usr/local/go
 tar -C /usr/local -xzf $GO_TARGZ
 
-# update path
-echo 'export PATH=/usr/local/go/bin:$PATH' >>~/.zshrc
-
 rm -rf /tmp/go

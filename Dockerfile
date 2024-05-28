@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Singapore
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  sudo zsh vim git curl tar ripgrep fd-find fzf \
+  sudo zsh vim git curl tar ripgrep fd-find fzf unzip \
   openjdk-17-jdk openjdk-17-jre \
   gnupg2 ca-certificates openssh-server
 

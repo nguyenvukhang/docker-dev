@@ -14,6 +14,11 @@ echo 'export PATH=$HOME/.local/bin:$PATH' >>$ZSHRC
 # link `fd` searcher
 ln -s $(which fdfind) ~/.local/bin/fd
 
+# install exa (ls with colors)
+curl -fsSLO https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
+unzip -p exa-linux-x86_64-v0.10.1.zip bin/exa >~/.local/bin/exa
+rm -rf exa-linux-x86_64-v0.10.1.zip
+
 # install gitnu
 curl -fsSLO https://github.com/nguyenvukhang/gitnu/releases/download/v0.7.6/git-nu-v0.7.6-x86_64-unknown-linux-musl.tar.gz
 tar -xzvf git-nu-v0.7.6-x86_64-unknown-linux-musl.tar.gz

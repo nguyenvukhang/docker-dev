@@ -27,6 +27,7 @@ ARG PASSWORD=appliedai
 COPY setup-userspace.sh setup-nvim.sh setup-go.sh /
 
 # install things while there is still superuser permissions
+RUN chsh -s /bin/zsh
 RUN /setup-nvim.sh
 RUN /setup-go.sh
 

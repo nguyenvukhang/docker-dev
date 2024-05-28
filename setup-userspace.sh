@@ -10,7 +10,6 @@ ZSHRC=~/.zshrc
 # create the standard portable user binary directory, and add it to path.
 mkdir -p ~/.local/bin
 echo 'PATH=$HOME/.local/bin:$PATH' >>$ZSHRC
-echo 'PATH=/usr/local/go/bin:$PATH' >>$ZSHRC
 echo 'export PATH=$PATH'
 
 # link `fd` searcher

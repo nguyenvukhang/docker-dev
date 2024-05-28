@@ -10,3 +10,6 @@ rm -rf /usr/local/go
 tar -C /usr/local -xzf $GO_TARGZ
 
 rm -rf /tmp/go
+
+# install go for all users
+echo 'export PATH=/usr/local/go/bin:$PATH' >>/etc/zsh/zshenv

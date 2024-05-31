@@ -41,7 +41,7 @@ micromamba create --name $PYENV --channel conda-forge python=3.11 --yes
 micromamba activate $PYENV
 micromamba config append channels conda-forge
 micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia --yes
-micromamba install tensorflow scikit-learn keras --yes
+micromamba install tensorflow scikit-learn keras tqdm ordered-set pytorch_warmup --yes
 
 pip install river pyright
 

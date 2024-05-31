@@ -1,6 +1,6 @@
 IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
 CONTAINER := khang
-ABSOLUTE_WORKDIR := /home/appliedai/Documents/khangs-docker-volume-for-work
+ABSOLUTE_WORKDIR := /home/khang/docker-workdir
 HOST_PORT := 616
 
 current:

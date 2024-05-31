@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   sudo zsh vim git curl tar ripgrep fd-find fzf unzip \
   openjdk-17-jdk openjdk-17-jre \
   gnupg2 ca-certificates openssh-server \
-  maven tmux black \
+  maven tmux black clang-format \
   && apt-get clean && rm -rf /var/lib/apt/lists/\* /tmp/\* /var/tmp/\*
 
 # RUN curl -fsSLO https://github.com/neovim/neovim/releases/download/v0.9.5/nvim-linux64.tar.gz \

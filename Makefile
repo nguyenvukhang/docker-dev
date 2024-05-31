@@ -34,4 +34,4 @@ rm-image:
 	-docker rmi -f $(IMAGE)
 
 attach:
-	docker exec -it $(CONTAINER) zsh
+	docker exec --user appliedai --workdir /home/appliedai -it $(CONTAINER) zsh

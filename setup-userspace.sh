@@ -30,8 +30,20 @@ rm -rf git-nu*
 micromamba shell init --shell zsh --root-prefix=~/.local/micromamba
 source $ZSHRC
 micromamba create --name $DEFAULT_NONBASE_ENV --channel conda-forge python=3.10 --yes
+
+# setup $DEFAULT_NONBASE_ENV
 micromamba activate $DEFAULT_NONBASE_ENV
 micromamba config append channels conda-forge
+
+# setup streamdfp
+PYENV=streamdfp
+micromamba create --name $PYENV --channel conda-forge python=3.11 --yes
+micromamba activate $PYENV
+micromamba config append channels conda-forge
+micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+micromamba install tensorflow scikit-learn keras
+
+pip install river
 
 # make sure micromamba starts by default
 echo "micromamba activate $DEFAULT_NONBASE_ENV" >>$ZSHRC

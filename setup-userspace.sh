@@ -10,7 +10,7 @@ ZSHRC=~/.zshrc
 # create the standard portable user binary directory, and add it to path.
 mkdir -p ~/.local/bin
 echo 'PATH=$HOME/.local/bin:$PATH' >>$ZSHRC
-echo 'export PATH=$PATH'
+echo 'export PATH=$PATH' >>$ZSHRC
 
 # link `fd` searcher
 ln -s $(which fdfind) ~/.local/bin/fd
@@ -40,8 +40,8 @@ PYENV=streamdfp
 micromamba create --name $PYENV --channel conda-forge python=3.11 --yes
 micromamba activate $PYENV
 micromamba config append channels conda-forge
-micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
-micromamba install tensorflow scikit-learn keras
+micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia --yes
+micromamba install tensorflow scikit-learn keras --yes
 
 pip install river
 

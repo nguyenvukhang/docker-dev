@@ -11,7 +11,7 @@ build:
 
 R := --name $(CONTAINER)
 R += --volume /mnt/md0/weijie:/mnt/khang
-R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/repos
+R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai
 R += -p $(HOST_PORT):22
 R += --gpus all
 R += --detach

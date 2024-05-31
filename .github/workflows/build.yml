@@ -23,3 +23,18 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           docker push $TAG:$VERSION
           docker push $TAG:latest
+  build-apt-base:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t apt-base apt-base
+      - name: Deploy
+        run: |
+          TAG="ghcr.io/$GITHUB_ACTOR/apt-base"
+          VERSION="$(date "+%Y%m%d")"
+          docker tag apt-base $TAG:$VERSION
+          docker tag apt-base $TAG:latest
+          docker images $TAG
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          docker push $TAG:$VERSION
+          docker push $TAG:latest

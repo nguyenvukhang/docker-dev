@@ -43,7 +43,7 @@ micromamba config append channels conda-forge
 micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia --yes
 micromamba install tensorflow scikit-learn keras --yes
 
-pip install river
+pip install river pyright
 
 # make sure micromamba starts by default
 echo "micromamba activate $DEFAULT_NONBASE_ENV" >>$ZSHRC

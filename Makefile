@@ -1,6 +1,6 @@
 IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
 CONTAINER := khang
-ABSOLUTE_WORKDIR := /home/khang/docker-workdir
+ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
 HOST_PORT := 616
 
 current:
@@ -11,7 +11,7 @@ build:
 
 R := --name $(CONTAINER)
 R += --volume /mnt/md0/weijie:/mnt/khang
-R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai
+R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/v
 R += -p $(HOST_PORT):22
 R += --gpus all
 R += --detach

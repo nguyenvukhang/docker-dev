@@ -2,7 +2,7 @@ IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
 CONTAINER := khang
 ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
 ABSOLUTE_WORKDIR := /home/appliedai/Documents/khangs-docker-volume
-HOST_PORT := 616
+HOST_SSH_PORT := 616
 
 current:
 	@echo 'Makefiles!'
@@ -13,7 +13,7 @@ build:
 R := --name $(CONTAINER)
 R += --volume /mnt/md0/weijie:/mnt/khang
 R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/v
-R += -p $(HOST_PORT):22
+R += -p $(HOST_SSH_PORT):22
 R += --gpus all
 R += --detach
 R += --tty
@@ -24,6 +24,9 @@ run: rm-container
 
 start:
 	docker start $(CONTAINER)
+
+stop:
+	docker stop $(CONTAINER)
 
 kill:
 	-docker kill $(CONTAINER)

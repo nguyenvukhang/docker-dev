@@ -1,8 +1,8 @@
 IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
-CONTAINER := khang
+CONTAINER := khang2
 ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
 ABSOLUTE_WORKDIR := /home/appliedai/Documents/khangs-docker-volume
-HOST_SSH_PORT := 616
+HOST_SSH_PORT := 617
 
 current:
 	@echo 'Makefiles!'
@@ -19,7 +19,7 @@ R += --detach
 R += --tty
 RUN_ARGS := $(R)
 
-run: rm-container
+run:
 	docker run $(RUN_ARGS) $(IMAGE)
 
 start:

@@ -1,8 +1,8 @@
 IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
-CONTAINER := khang2
+CONTAINER := khang
 ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
 ABSOLUTE_WORKDIR := /home/appliedai/Documents/khangs-docker-volume
-HOST_SSH_PORT := 617
+HOST_SSH_PORT := 616
 
 current:
 	@echo 'Makefiles!'

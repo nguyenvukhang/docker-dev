@@ -24,7 +24,8 @@ jobs:
           docker push $TAG:$VERSION
           docker push $TAG:latest
   build:
-    needs: [build-apt-base]
+    # uncomment the following line when changes are made to /apt-base
+    # needs: [build-apt-base]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4

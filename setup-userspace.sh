@@ -21,10 +21,13 @@ unzip -p exa-linux-x86_64-v0.10.1.zip bin/exa >~/.local/bin/exa
 rm -rf exa-linux-x86_64-v0.10.1.zip
 
 # install gitnu
+mkdir -p /tmp
+pushd /tmp
 curl -fsSLO https://github.com/nguyenvukhang/gitnu/releases/download/v0.7.7/git-nu-v0.7.7-x86_64-unknown-linux-musl.tar.gz
 tar -xzvf git-nu-v0.7.7-x86_64-unknown-linux-musl.tar.gz
 mv git-nu-v0.7.7-x86_64-unknown-linux-musl/git-nu ~/.local/bin
 rm -rf git-nu*
+popd
 
 # setup micromamba
 micromamba shell init --shell zsh --root-prefix=~/.local/micromamba

@@ -21,9 +21,9 @@ unzip -p exa-linux-x86_64-v0.10.1.zip bin/exa >~/.local/bin/exa
 rm -rf exa-linux-x86_64-v0.10.1.zip
 
 # install gitnu
-curl -fsSLO https://github.com/nguyenvukhang/gitnu/releases/download/v0.7.6/git-nu-v0.7.6-x86_64-unknown-linux-musl.tar.gz
-tar -xzvf git-nu-v0.7.6-x86_64-unknown-linux-musl.tar.gz
-mv git-nu-v0.7.6-x86_64-unknown-linux-musl/git-nu ~/.local/bin
+curl -fsSLO https://github.com/nguyenvukhang/gitnu/releases/download/v0.7.7/git-nu-v0.7.7-x86_64-unknown-linux-musl.tar.gz
+tar -xzvf git-nu-v0.7.7-x86_64-unknown-linux-musl.tar.gz
+mv git-nu-v0.7.7-x86_64-unknown-linux-musl/git-nu ~/.local/bin
 rm -rf git-nu*
 
 # setup micromamba
@@ -36,14 +36,14 @@ micromamba activate $DEFAULT_NONBASE_ENV
 micromamba config append channels conda-forge
 
 # setup streamdfp
-PYENV=streamdfp
-micromamba create --name $PYENV --channel conda-forge python=3.11 --yes
-micromamba activate $PYENV
-micromamba config append channels conda-forge
-micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia --yes
-micromamba install tensorflow scikit-learn keras tqdm ordered-set pytorch_warmup --yes
+# PYENV=streamdfp
+# micromamba create --name $PYENV --channel conda-forge python=3.11 --yes
+# micromamba activate $PYENV
+# micromamba config append channels conda-forge
+# micromamba install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia --yes
+# micromamba install tensorflow scikit-learn keras tqdm ordered-set pytorch_warmup --yes
 
-pip install river pyright
+# pip install river pyright
 
 # make sure micromamba starts by default
 echo "micromamba activate $DEFAULT_NONBASE_ENV" >>$ZSHRC

@@ -1,4 +1,4 @@
-IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
+IMAGE := ghcr.io/nguyenvukhang/cuda:12.4.1-ubuntu22.04
 CONTAINER := khang
 ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
 ABSOLUTE_WORKDIR := /home/appliedai/Documents/khangs-docker-volume

@@ -1,37 +1,7 @@
-IMAGE := ghcr.io/nguyenvukhang/cuda-ubuntu
-CONTAINER := khang
-ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
-HOST_PORT := 616
+IMAGE := ghcr.io/nguyenvukhang/cuda:11.4.3-ubuntu20.04
 
 current:
 	@echo 'Makefiles!'
 
 build:
 	docker build -t $(IMAGE) .
-
-R := --name $(CONTAINER)
-R += --volume /mnt/md0/weijie:/mnt/khang
-R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/v
-R += -p $(HOST_PORT):22
-R += --gpus all
-R += --detach
-R += --tty
-RUN_ARGS := $(R)
-
-run: rm-container
-	docker run $(RUN_ARGS) $(IMAGE)
-
-start:
-	docker start $(CONTAINER)
-
-kill:
-	-docker kill $(CONTAINER)
-
-rm-container: kill
-	-docker rm $(CONTAINER)
-
-rm-image:
-	-docker rmi -f $(IMAGE)
-
-attach:
-	docker exec --user appliedai --workdir /home/appliedai -it $(CONTAINER) zsh

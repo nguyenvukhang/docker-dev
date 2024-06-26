@@ -12,20 +12,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag:
-          - cuda:11.4.3-devel-ubuntu20.04
-          - cuda:12.2.2-devel-ubuntu22.04
-          - cuda:12.4.1-devel-ubuntu22.04
+        include:
+          - cuda: 11.4.3
+            os: ubuntu20.04
+          - cuda: 12.2.2
+            os: ubuntu20.04
+          - cuda: 12.4.1
+            os: ubuntu22.04
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build base image
+      - name: Set environment variables
         run: |
-          T=${{ matrix.tag }}
-          docker build --build-arg="TAG=$T" -t apt-base-$T apt-base
+          echo 'N=cuda:${{ matrix.cuda }}-devel-${{ matrix.os }}' >>$GITHUB_ENV
+          echo 'T=cuda${{ matrix.cuda }}-${{ matrix.os }}' >>$GITHUB_ENV
+      - name: Build base image
+        run: docker build --build-arg="TAG=$N" -t apt-base-$T apt-base
       - name: Deploy
         run: |
-          T=${{ matrix.tag }}
           TAG=ghcr.io/$GITHUB_ACTOR/apt-base-$T
           VERSION="$(date "+%Y%m%d")"
           docker tag apt-base-$T $TAG:$VERSION
@@ -36,11 +40,9 @@ jobs:
           docker push $TAG:latest
       - name: Build user-facing image
         run: |
-          T=${{ matrix.tag }}
           docker build --build-arg="TAG=$T" -t uwuntu-$T .
       - name: Deploy
         run: |
-          T=${{ matrix.tag }}
           TAG="ghcr.io/$GITHUB_ACTOR/uwuntu-$T"
           VERSION="$(date "+%Y%m%d")"
           docker tag uwuntu-$T $TAG:$VERSION

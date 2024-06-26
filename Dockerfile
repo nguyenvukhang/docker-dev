@@ -1,4 +1,5 @@
-FROM ghcr.io/nguyenvukhang/cuda:11.4.3-ubuntu20.04
+ARG TAG=cuda12.4.1-ubuntu22.04
+FROM ghcr.io/nguyenvukhang/apt-base-${TAG}
 
 # Download the micromamba (conda) binary. Setup is not done yet.
 RUN mkdir -p /tmp/setup \

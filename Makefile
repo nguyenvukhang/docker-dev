@@ -1,4 +1,5 @@
 IMAGE := ghcr.io/nguyenvukhang/cuda:12.4.1-ubuntu22.04
+IMAGE := ghcr.io/nguyenvukhang/cuda:11.4.3-ubuntu20.04
 CONTAINER := khang
 ABSOLUTE_WORKDIR := /home/khang/docker-workdir2
 ABSOLUTE_WORKDIR := /home/appliedai/Documents/khangs-docker-volume
@@ -11,7 +12,8 @@ build:
 	docker build -t $(IMAGE) .
 
 R := --name $(CONTAINER)
-R += --volume /mnt/md0/weijie:/mnt/khang
+R += --volume /mnt/md0/weijie:/mnt/weijie
+R += --volume /mnt/md0/lilong:/mnt/lilong
 R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/v
 R += -p $(HOST_SSH_PORT):22
 R += --gpus all

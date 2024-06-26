@@ -9,33 +9,42 @@ permissions:
 
 jobs:
   build-apt-base:
+    strategy:
+      fail-fast: false
+      matrix:
+        tag:
+          - cuda:11.4.3-devel-ubuntu20.04
+          - cuda:12.2.2-devel-ubuntu22.04
+          - cuda:12.4.1-devel-ubuntu22.04
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t apt-base apt-base
+      - name: Build base image
+        run: |
+          T=${{ matrix.tag }}
+          docker build --build-arg="TAG=$T" -t apt-base-$T apt-base
       - name: Deploy
         run: |
-          TAG="ghcr.io/$GITHUB_ACTOR/apt-base"
+          T=${{ matrix.tag }}
+          TAG=ghcr.io/$GITHUB_ACTOR/apt-base-$T
           VERSION="$(date "+%Y%m%d")"
-          docker tag apt-base $TAG:$VERSION
-          docker tag apt-base $TAG:latest
+          docker tag apt-base-$T $TAG:$VERSION
+          docker tag apt-base-$T $TAG:latest
           docker images $TAG
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           docker push $TAG:$VERSION
           docker push $TAG:latest
-  build:
-    # uncomment the following line when changes are made to /apt-base
-    # needs: [build-apt-base]
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - run: docker build -t cuda-ubuntu .
+      - name: Build user-facing image
+        run: |
+          T=${{ matrix.tag }}
+          docker build --build-arg="TAG=$T" -t uwuntu-$T .
       - name: Deploy
         run: |
-          TAG="ghcr.io/$GITHUB_ACTOR/cuda-ubuntu"
+          T=${{ matrix.tag }}
+          TAG="ghcr.io/$GITHUB_ACTOR/uwuntu-$T"
           VERSION="$(date "+%Y%m%d")"
-          docker tag cuda-ubuntu $TAG:$VERSION
-          docker tag cuda-ubuntu $TAG:latest
+          docker tag uwuntu-$T $TAG:$VERSION
+          docker tag uwuntu-$T $TAG:latest
           docker images $TAG
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           docker push $TAG:$VERSION

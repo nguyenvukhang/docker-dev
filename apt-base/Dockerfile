@@ -1,6 +1,6 @@
-# FROM nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
-FROM nvcr.io/nvidia/cuda:11.4.3-devel-ubuntu20.04
 # https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda/tags
+ARG TAG=cuda:12.4.1-devel-ubuntu22.04
+FROM nvcr.io/nvidia/${TAG}
 
 # to help with openssh setup
 ENV DEBIAN_FRONTEND=noninteractive

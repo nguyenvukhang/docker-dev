@@ -1,4 +1,4 @@
-FROM ghcr.io/nguyenvukhang/apt-base
+FROM ghcr.io/nguyenvukhang/cuda:11.4.3-ubuntu20.04
 
 # Download the micromamba (conda) binary. Setup is not done yet.
 RUN mkdir -p /tmp/setup \

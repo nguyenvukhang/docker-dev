@@ -19,6 +19,8 @@ jobs:
             os: ubuntu20.04
           - cuda: 12.4.1
             os: ubuntu22.04
+          - cuda: 12.5.0
+            os: ubuntu22.04
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4

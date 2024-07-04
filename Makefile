@@ -17,7 +17,9 @@ R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/v
 R += -p $(HOST_SSH_PORT):22
 R += -p $(HOST_TENSORBOARD_PORT):6006
 R += -p $(HOST_JUPYTER_PORT):8888
-R += --gpus all
+R += --privileged
+R += --runtime=nvidia
+# R += --gpus all
 R += --detach
 R += --tty
 RUN_ARGS := $(R)

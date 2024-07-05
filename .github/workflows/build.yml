@@ -39,7 +39,7 @@ jobs:
           docker tag apt-base-$T $TAG:latest
           docker images $TAG
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-          docker push $TAG:$VERSION
+          docker push $TAG:$D
           docker push $TAG:latest
       - name: Build user-facing image
         run: |
@@ -51,5 +51,5 @@ jobs:
           docker tag uwuntu-$T $TAG:latest
           docker images $TAG
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-          docker push $TAG:$VERSION
+          docker push $TAG:$D
           docker push $TAG:latest

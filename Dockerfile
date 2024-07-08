@@ -19,7 +19,7 @@ RUN /setup-docker.sh
 
 # add new user and give it sudo priviledges (set its shell to zsh)
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN useradd -ms /bin/zsh $USERNAME && echo "$USERNAME:$PASSWORD" | chpasswd && adduser $USERNAME sudo
+RUN useradd -ms /bin/zsh $USERNAME && echo "$USERNAME:$PASSWORD" | chpasswd && adduser $USERNAME sudo && adduser $USERNAME docker
 RUN chown -R $USERNAME /home/$USERNAME
 
 # switch from root to the regular user (loses superuser permissions)

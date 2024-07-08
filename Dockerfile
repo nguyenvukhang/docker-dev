@@ -15,6 +15,7 @@ COPY setup-userspace.sh setup-nvim.sh setup-go.sh /
 RUN chsh -s /bin/zsh
 RUN /setup-nvim.sh
 RUN /setup-go.sh
+RUN /setup-docker.sh
 
 # add new user and give it sudo priviledges (set its shell to zsh)
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

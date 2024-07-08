@@ -9,7 +9,7 @@ RUN mkdir -p /tmp/setup \
 
 ARG USERNAME=appliedai
 ARG PASSWORD=appliedai
-COPY setup-userspace.sh setup-nvim.sh setup-go.sh /
+COPY setup-userspace.sh setup-nvim.sh setup-go.sh setup-docker.sh /
 
 # install things while there is still superuser permissions
 RUN chsh -s /bin/zsh
@@ -32,7 +32,7 @@ RUN /setup-userspace.sh
 USER root
 
 # clear setup files
-RUN rm /setup-userspace.sh /setup-nvim.sh /setup-go.sh
+RUN rm /setup-userspace.sh /setup-nvim.sh /setup-go.sh /setup-docker.sh
 RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64' >>/etc/zsh/zshenv
 
 # start ssh server

@@ -8,7 +8,7 @@ ENV TZ=Asia/Singapore
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   sudo zsh vim git curl tar ripgrep fd-find fzf unzip \
-  gnupg2 ca-certificates openssh-server \
+  gnupg2 ca-certificates openssh-server less \
   tmux black clang-format \
   && apt-get clean && rm -rf /var/lib/apt/lists/\* /tmp/\* /var/tmp/\*
   # maven openjdk-17-jdk openjdk-17-jre \

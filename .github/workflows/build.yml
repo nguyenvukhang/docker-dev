@@ -30,17 +30,17 @@ jobs:
           echo 'N=cuda:${{ matrix.cuda }}-devel-${{ matrix.os }}' >>$GITHUB_ENV
           echo 'T=cuda${{ matrix.cuda }}-${{ matrix.os }}' >>$GITHUB_ENV
           echo "D=$(date '+%Y%m%d')" >>$GITHUB_ENV
-      # - name: Build base image
-      #   run: docker build --build-arg="TAG=$N" -t apt-base-$T apt-base
-      # - name: Deploy
-      #   run: |
-      #     TAG=ghcr.io/$GITHUB_ACTOR/apt-base-$T
-      #     docker tag apt-base-$T $TAG:$D
-      #     docker tag apt-base-$T $TAG:latest
-      #     docker images $TAG
-      #     echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      #     docker push $TAG:$D
-      #     docker push $TAG:latest
+      - name: Build base image
+        run: docker build --build-arg="TAG=$N" -t apt-base-$T apt-base
+      - name: Deploy
+        run: |
+          TAG=ghcr.io/$GITHUB_ACTOR/apt-base-$T
+          docker tag apt-base-$T $TAG:$D
+          docker tag apt-base-$T $TAG:latest
+          docker images $TAG
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          docker push $TAG:$D
+          docker push $TAG:latest
       - name: Build user-facing image
         run: |
           docker build --build-arg="TAG=$T" -t uwuntu-$T .

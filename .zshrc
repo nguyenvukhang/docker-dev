@@ -2,17 +2,12 @@
 alias fd="$FD_BIN --hidden"
 alias rg="rg --hidden"
 
-# ////////////////////////////////////////////////////////////////////
-
 # cargo (rust)
 [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
 
 has() {
 	command -v $1 >/dev/null
 }
-
-# special directories
-export UNI=$HOME/uni REPOS=$HOME/repos
 
 # bye __pycache__
 export PYTHONPYCACHEPREFIX=/tmp/pycache
@@ -285,7 +280,7 @@ alias b="cd -"  # back
 }
 
 if has exa; then
-	EXA_OPTS=(--group-directories-first -s Name -I '.DS_Store')
+	EXA_OPTS=(--group-directories-first -s Name)
 	alias ls="exa -a $EXA_OPTS"
 	alias lss="exa -a --tree -L 2 $EXA_OPTS"
 	alias lsss="exa -a --tree -L 3 $EXA_OPTS"
@@ -357,10 +352,4 @@ t() {
 	elif [ -f package.json ]; then
 		yarn dev
 	fi
-}
-
-# clears jdtls (nvim) cache
-jclear() {
-	rm -rf $HOME/.cache/nvim/jdtls
-	mkdir -p $HOME/.cache/nvim/jdtls
 }

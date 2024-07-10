@@ -26,6 +26,7 @@ RUN chown -R $USERNAME /home/$USERNAME
 # switch from root to the regular user (loses superuser permissions)
 USER $USERNAME
 SHELL ["/bin/zsh", "-c"]
+COPY --chown=appliedai .zshrc /home/$USERNAME
 # setup user-space stuff
 RUN /setup-userspace.sh
 

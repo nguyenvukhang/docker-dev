@@ -1,4 +1,4 @@
-IMAGE := ghcr.io/nguyenvukhang/uwuntu-cuda12.4.1-ubuntu22.04
+IMAGE := ghcr.io/nguyenvukhang/uwuntu-cuda12.5.0-ubuntu22.04
 CONTAINER := khang
 ABSOLUTE_WORKDIR := /media/appliedai/ssd_nvme/khang
 HOST_SSH_PORT         := 616

@@ -7,6 +7,9 @@ permissions:
   contents: write
   packages: write
 
+env:
+  BUILD_NEW_BASE: false
+
 jobs:
   build:
     strategy:
@@ -31,8 +34,10 @@ jobs:
           echo 'T=cuda${{ matrix.cuda }}-${{ matrix.os }}' >>$GITHUB_ENV
           echo "D=$(date '+%Y%m%d')" >>$GITHUB_ENV
       - name: Build base image
+        if: ${{ env.BUILD_NEW_BASE == true }}
         run: docker build --build-arg="TAG=$N" -t apt-base-$T apt-base
       - name: Deploy
+        if: ${{ env.BUILD_NEW_BASE == true }}
         run: |
           TAG=ghcr.io/$GITHUB_ACTOR/apt-base-$T
           docker tag apt-base-$T $TAG:$D

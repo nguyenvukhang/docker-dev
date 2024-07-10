@@ -14,6 +14,7 @@ build:
 R := --name $(CONTAINER)
 R += --volume /media/appliedai/ssd_nvme:/mnt/shared
 R += --volume $(ABSOLUTE_WORKDIR):/home/appliedai/v
+R += --volume /var/run/docker.sock:/var/run/docker.sock
 R += -p $(HOST_SSH_PORT):22
 R += -p $(HOST_TENSORBOARD_PORT):6006
 R += -p $(HOST_JUPYTER_PORT):8888

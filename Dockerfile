@@ -1,14 +1,15 @@
 ARG TAG=cuda12.4.1-ubuntu22.04
 FROM ghcr.io/nguyenvukhang/apt-base-${TAG}
 
+ARG USERNAME=appliedai
+ARG PASSWORD=appliedai
+
 # Download the micromamba (conda) binary. Setup is not done yet.
 RUN mkdir -p /tmp/setup \
   && curl -o /tmp/setup/m -fL https://micro.mamba.pm/api/micromamba/linux-64/latest \
   && tar -xvjf /tmp/setup/m bin/micromamba \
   && rm -f /tmp/setup/m
 
-ARG USERNAME=appliedai
-ARG PASSWORD=appliedai
 COPY setup-userspace.sh setup-nvim.sh setup-go.sh setup-docker.sh setup-node.sh /
 
 # install things while there is still superuser permissions

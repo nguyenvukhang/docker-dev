@@ -1,0 +1,20 @@
+presets:
+  - name: cachelib-khang
+    image: ghcr.io/nguyenvukhang/uwuntu-cuda12.5.0-ubuntu22.04
+    container: cachelib2
+    homedir: /home/appliedai
+    user: appliedai
+    shell: zsh
+    volumes:
+      - ["/media/appliedai/ssd_nvme/khang", "/home/appliedai/v"]
+      - ["/media/appliedai/ssd_nvme", "/mnt/shared"]
+      - ["/var/run/docker.sock", "/var/run/docker.sock"]
+    ports:
+      - [618, 22] # ssh
+      - [11106, 6006] # TensorBoard
+      - [11188, 8888] # Jupyter Notebook
+    run_args:
+      - --privileged
+      - --runtime=nvidia
+      - --gpus=all
+      - --restart=always

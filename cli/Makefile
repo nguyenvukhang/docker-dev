@@ -1,9 +1,12 @@
 AID := ./target/debug/aid
 
-current: attach
+current: list
 
 build:
 	cargo build
+
+list: build
+	$(AID) ls
 
 attach: build
 	$(AID) attach cachelib-khang
@@ -15,4 +18,4 @@ run: build
 install:
 	cargo install --all-features --path . --locked
 
-.PHONY: attach
+.PHONY: build

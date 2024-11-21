@@ -102,11 +102,6 @@ impl Config {
         serde_yaml::from_str::<Config>(&txt).unwrap()
     }
 
-    pub fn get_preset<S: AsRef<str>>(&self, name: S) -> Option<&Preset> {
-        let name = name.as_ref();
-        self.presets.iter().find(|v| v.name == name)
-    }
-
     pub fn quick_preset<P, S>(config_path: P, preset_name: S) -> Preset
     where
         P: AsRef<Path>,
@@ -119,6 +114,39 @@ impl Config {
             exit(1);
         };
         preset
+    }
+}
+
+// Command, CreatedAt, ID, Image, Labels, LocalVolumes, Mounts,
+// Names, Networks, Ports, RunningFor, Size, State, Status
+#[derive(Deserialize)]
+struct DockerPsLine {
+    #[serde(alias = "Names")]
+    name: String,
+
+    #[serde(alias = "Image")]
+    image: String,
+
+    #[serde(alias = "ID")]
+    id: String,
+
+    #[serde(alias = "Status")]
+    status: String,
+
+    #[serde(alias = "CreatedAt")]
+    created_at: String,
+
+    #[serde(alias = "Ports")]
+    ports: String,
+}
+
+impl DockerPsLine {
+    pub fn short_id(&self, n: usize) -> &str {
+        &self.id[0..self.id.len().min(n)]
+    }
+
+    pub fn ports(&self) -> impl Iterator<Item = &str> {
+        self.ports.split(", ")
     }
 }
 
@@ -177,6 +205,13 @@ enum Cmd {
     ///
     /// Runs `docker stop` then `docker remove` on a container.
     Annihilate { container: String },
+
+    /// Lists all containers.
+    #[clap(visible_alias = "ls")]
+    List {
+        #[arg(short, long)]
+        all: bool,
+    },
 }
 
 fn main() {
@@ -218,6 +253,33 @@ fn main() {
             // Remove the container
             if let Ok(mut child) = docker!("rm", container).spawn() {
                 let _ = child.wait();
+            }
+        }
+        Cmd::List { all } => {
+            let mut cmd = docker!("ps", "--no-trunc", "--format", "json");
+            if all {
+                cmd.arg("--all");
+            }
+            let Ok(x) = cmd.output() else {
+                println!("`docker ps` failed.");
+                exit(1);
+            };
+            // println!("{:?}", String::from_utf8_lossy(&x.stdout));
+            let raw = std::str::from_utf8(&x.stdout).unwrap();
+            let docker_ps_lines = raw
+                .lines()
+                .filter_map(|v| serde_json::from_str::<DockerPsLine>(v).ok());
+            for dp in docker_ps_lines {
+                println!(
+                    "  * \x1b[36m{id}\x1b[m: \x1b[33m{name}\x1b[m  (\x1b[35m{status}\x1b[m)" ,
+                    id = dp.short_id(10),
+                    name = dp.name,
+                    status = dp.status
+                );
+                println!("    \x1b[36mimage:     \x1b[m {}", dp.image);
+                println!("    \x1b[36mcreated:   \x1b[m {}", dp.created_at);
+                println!("    \x1b[36mports:\x1b[m");
+                dp.ports().for_each(|v| println!("      - {}", v));
             }
         }
     }

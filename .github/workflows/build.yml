@@ -8,10 +8,11 @@ permissions:
   packages: write
 
 env:
-  BUILD_NEW_BASE: false
+  UPDATE_PACKAGES: false
 
 jobs:
   build:
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -24,37 +25,47 @@ jobs:
             os: ubuntu22.04
           - cuda: 12.5.0
             os: ubuntu22.04
-    runs-on: ubuntu-22.04
+          - cuda: 12.5.1
+            os: ubuntu22.04
+          - cuda: 12.6.2
+            os: ubuntu22.04
+
     name: cuda${{ matrix.cuda }}+${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+
       - name: Set environment variables
         run: |
-          echo 'N=cuda:${{ matrix.cuda }}-devel-${{ matrix.os }}' >>$GITHUB_ENV
-          echo 'T=cuda${{ matrix.cuda }}-${{ matrix.os }}' >>$GITHUB_ENV
+          echo "T=${{ matrix.cuda }}-devel-${{ matrix.os }}" >>$GITHUB_ENV
           echo "D=$(date '+%Y%m%d')" >>$GITHUB_ENV
-      - name: Build base image
-        if: ${{ env.BUILD_NEW_BASE == true }}
-        run: docker build --build-arg="TAG=$N" -t apt-base-$T apt-base
-      - name: Deploy
-        if: ${{ env.BUILD_NEW_BASE == true }}
-        run: |
-          TAG=ghcr.io/$GITHUB_ACTOR/apt-base-$T
-          docker tag apt-base-$T $TAG:$D
-          docker tag apt-base-$T $TAG:latest
-          docker images $TAG
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-          docker push $TAG:$D
-          docker push $TAG:latest
+
+      #  ///////////////////////////////////////////////////////////////////////
+      # // Base image. Update apt packages from NVIDIA's image.
+      - name: Build base image
+        if: env.UPDATE_PACKAGES == 'true'
+        run: |
+          docker build --build-arg="TAG=$T" -t cuda:$T cuda
+
+      - name: Deploy base image
+        if: env.UPDATE_PACKAGES == 'true'
+        run: |
+          docker tag cuda:$T ghcr.io/$GITHUB_ACTOR/cuda:$T-$D
+          docker tag cuda:$T ghcr.io/$GITHUB_ACTOR/cuda:$T
+
+          docker push        ghcr.io/$GITHUB_ACTOR/cuda:$T-$D
+          docker push        ghcr.io/$GITHUB_ACTOR/cuda:$T
+
+      #  ///////////////////////////////////////////////////////////////////////
+      # // User-facing image. The image with everything installed.
       - name: Build user-facing image
         run: |
-          docker build --build-arg="TAG=$T" -t uwuntu-$T .
-      - name: Deploy
+          docker build --build-arg="TAG=$T" -t uwuntu:$T .
+
+      - name: Deploy user-facing image
         run: |
-          TAG=ghcr.io/$GITHUB_ACTOR/uwuntu-$T
-          docker tag uwuntu-$T $TAG:$D
-          docker tag uwuntu-$T $TAG:latest
-          docker images $TAG
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-          docker push $TAG:$D
-          docker push $TAG:latest
+          docker tag uwuntu:$T ghcr.io/$GITHUB_ACTOR/uwuntu:$T-$D
+          docker tag uwuntu:$T ghcr.io/$GITHUB_ACTOR/uwuntu:$T
+
+          docker push          ghcr.io/$GITHUB_ACTOR/uwuntu:$T-$D
+          docker push          ghcr.io/$GITHUB_ACTOR/uwuntu:$T

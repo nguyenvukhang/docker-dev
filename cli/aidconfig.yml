@@ -4,14 +4,14 @@ presets:
     homedir: /home/appliedai
     user: appliedai
     shell: zsh
-    volumes:
+    volumes: # [host, container]
       - ["/media/appliedai/ssd_nvme/khang", "/home/appliedai/v"]
       - ["/media/appliedai/ssd_nvme", "/mnt/shared"]
       - ["/var/run/docker.sock", "/var/run/docker.sock"]
-    ports:
-      - [619, 22] # ssh
-      - [12106, 6006] # TensorBoard
-      - [12188, 8888] # Jupyter Notebook
+    ports: # [host, container]
+      - [9022, 22] # ssh
+      - [9006, 6006] # TensorBoard
+      - [9088, 8888] # Jupyter Notebook
     run_args:
       - --privileged
       - --runtime=nvidia

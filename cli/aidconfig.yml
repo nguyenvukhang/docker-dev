@@ -1,7 +1,7 @@
 presets:
   - name: cachelib
     image: ghcr.io/nguyenvukhang/uwuntu:12.5.1-devel-ubuntu22.04
-    homedir: /home/appliedai
+    workdir: /home/appliedai
     user: appliedai
     shell: zsh
     volumes: # [host, container]
@@ -16,4 +16,24 @@ presets:
       - --privileged
       - --runtime=nvidia
       - --gpus=all
+      - --restart=always
+
+  - name: ci # short for cachelib-isolated
+    image: ubuntu-cachelib # locally built
+    workdir: /
+    user: root
+    shell: zsh
+    volumes: # [host, container]
+      - ["/media/appliedai/ssd_nvme/khang/cachelib-iso", "/cachelib"]
+    run_args:
+      - --restart=always
+
+  - name: ci2 # short for cachelib-isolated
+    image: ubuntu-cachelib # locally built
+    workdir: /
+    user: root
+    shell: zsh
+    volumes: # [host, container]
+      - ["/media/appliedai/ssd_nvme/khang/cachelib-iso", "/cachelib"]
+    run_args:
       - --restart=always

@@ -29,6 +29,7 @@ enum Cmd {
     /// Attaches to a running container.
     ///
     /// EQ: (docker exec -it ...)
+    #[clap(visible_alias = "a")]
     Attach(RunArgs),
 
     /// Start a container that already exists.

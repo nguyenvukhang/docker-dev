@@ -8,8 +8,8 @@ pub struct Preset {
     /// Tag of the image to create the container from.
     pub image: String,
 
-    /// Path to the home directory.
-    pub homedir: PathBuf,
+    /// The path to start at when attaching.
+    pub workdir: PathBuf,
 
     /// Username within the container.
     pub user: String,
@@ -57,7 +57,7 @@ impl Preset {
         let mut cmd = docker!("exec", "-it");
         cmd.args(["--user", &self.user]);
         cmd.arg("--workdir");
-        cmd.arg(&self.homedir);
+        cmd.arg(&self.workdir);
         cmd.args([&self.name, &self.shell]);
         cmd
     }

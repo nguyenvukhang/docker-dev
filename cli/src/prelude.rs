@@ -5,10 +5,10 @@ pub(crate) use serde::Deserialize;
 
 pub(crate) use std::fs;
 pub(crate) use std::os::unix::process::CommandExt;
-pub(crate) use std::path::{Path, PathBuf};
+pub(crate) use std::path::PathBuf;
 pub(crate) use std::process::{exit, Command};
 
-pub(crate) const CONFIG_PATH: &str = "aidconfig.yml";
+pub(crate) const CONFIG_FILENAME: &str = "aidconfig.yml";
 
 macro_rules! docker {
     () => {

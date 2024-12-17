@@ -68,19 +68,39 @@ pub struct Config {
     pub presets: Vec<Preset>,
 }
 
+// let txt = match fs::read_to_string(path.as_ref()) {
+//     Ok(v) => v,
+//     Err(e) => match e.kind() {
+//         std::io::ErrorKind::NotFound => {
+//             panic!("File not found: {}", path.as_ref().display());
+//         }
+//         _ => panic!("{e:?}"),
+//     },
+// };
+//
+
+impl<S: AsRef<str>> From<S> for Config {
+    fn from(value: S) -> Self {
+        serde_yaml::from_str::<Config>(value.as_ref()).unwrap()
+    }
+}
+
 impl Config {
-    /// Returns Self, but panics with helpful error messages if it fails.
-    pub fn from_path<P: AsRef<Path>>(path: P) -> Self {
-        let txt = match fs::read_to_string(path.as_ref()) {
-            Ok(v) => v,
-            Err(e) => match e.kind() {
-                std::io::ErrorKind::NotFound => {
-                    panic!("File not found: {}", path.as_ref().display());
-                }
-                _ => panic!("{e:?}"),
-            },
-        };
-        serde_yaml::from_str::<Config>(&txt).unwrap()
+    pub fn resolve() -> Self {
+        use std::io::ErrorKind as IoErr;
+        if let Some(home_dir) = dirs::home_dir() {
+            match fs::read_to_string(home_dir.join(CONFIG_FILENAME)) {
+                Ok(v) => return Self::from(v),
+                Err(e) if e.kind() == IoErr::NotFound => {}
+                Err(e) => panic!("{e:?}"),
+            }
+        }
+        match fs::read_to_string(CONFIG_FILENAME) {
+            Ok(v) => return Self::from(v),
+            Err(e) if e.kind() == IoErr::NotFound => {}
+            Err(e) => panic!("{e:?}"),
+        }
+        panic!("Config not found.");
     }
 
     pub fn contains_preset<S: AsRef<str>>(&self, preset_name: S) -> bool {
@@ -88,18 +108,16 @@ impl Config {
         self.presets.iter().any(|v| v.name == x)
     }
 
-    pub fn quick_preset<P, S, F>(
-        config_path: P,
+    pub fn get_preset<S, F>(
+        self,
         preset_name: Option<S>,
         help: Option<F>,
     ) -> Preset
     where
-        P: AsRef<Path>,
         S: AsRef<str>,
         F: FnOnce() -> (),
     {
-        let cfg = Self::from_path(config_path);
-        let err = cfg.presets.iter().fold(
+        let err = self.presets.iter().fold(
             "\
 ---------------------------------
 Pick one of these presets to run:"
@@ -107,7 +125,7 @@ Pick one of these presets to run:"
             |a, v| a + "\n  * " + &v.name,
         );
         let preset = preset_name.and_then(|x| {
-            cfg.presets.into_iter().find(|v| v.name == x.as_ref())
+            self.presets.into_iter().find(|v| v.name == x.as_ref())
         });
         match preset {
             Some(v) => return v,

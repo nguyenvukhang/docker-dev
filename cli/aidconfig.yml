@@ -37,3 +37,11 @@ presets:
       - ["/media/appliedai/ssd_nvme/khang/cachelib-iso", "/cachelib"]
     run_args:
       - --restart=always
+
+  - name: ub # short for ubuntu-bridge
+    image: ubuntu-bridge # locally built
+    workdir: /
+    user: hq
+    shell: zsh
+    volumes: # [host, container]
+      - ["/media/appliedai/ssd_nvme/khang/docky", "/docky"]

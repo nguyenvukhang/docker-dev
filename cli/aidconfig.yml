@@ -18,23 +18,32 @@ presets:
       - --gpus=all
       - --restart=always
 
+  - name: jennifer
+    image: ghcr.io/nguyenvukhang/uwuntu:12.5.1-devel-ubuntu22.04
+    workdir: /home/appliedai
+    user: appliedai
+    shell: zsh
+    volumes: # [host, container]
+      - ["/media/appliedai/ssd_nvme/jennifer", "/home/appliedai/j"]
+      - ["/media/appliedai/ssd_nvme", "/mnt/shared"]
+      - ["/var/run/docker.sock", "/var/run/docker.sock"]
+    ports: # [host, container]
+      - [8022, 22] # ssh
+      - [8006, 6006] # TensorBoard
+      - [8088, 8888] # Jupyter Notebook
+    run_args:
+      - --privileged
+      - --runtime=nvidia
+      - --gpus=all
+      - --restart=always
+
   - name: ci # short for cachelib-isolated
     image: ubuntu-cachelib # locally built
     workdir: /
     user: root
     shell: zsh
     volumes: # [host, container]
-      - ["/media/appliedai/ssd_nvme/khang/cachelib-iso", "/cachelib"]
-    run_args:
-      - --restart=always
-
-  - name: ci2 # short for cachelib-isolated
-    image: ubuntu-cachelib # locally built
-    workdir: /
-    user: root
-    shell: zsh
-    volumes: # [host, container]
-      - ["/media/appliedai/ssd_nvme/khang/cachelib-iso", "/cachelib"]
+      - ["/media/appliedai/ssd_nvme/khang/iso/cachelib", "/cachelib"]
     run_args:
       - --restart=always
 

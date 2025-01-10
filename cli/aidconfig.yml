@@ -47,6 +47,19 @@ presets:
     run_args:
       - --restart=always
 
+  - name: ci2 # short for cachelib-isolated
+    image: ubuntu-cachelib # locally built
+    workdir: /home/appliedai
+    user: appliedai
+    shell: zsh
+    volumes: # [host, container]
+      - [
+          "/media/appliedai/ssd_nvme/khang/iso/cachelib",
+          "/home/appliedai/cachelib",
+        ]
+    run_args:
+      - --restart=always
+
   - name: ub # short for ubuntu-bridge
     image: ubuntu-bridge # locally built
     workdir: /

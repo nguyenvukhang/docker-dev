@@ -22,6 +22,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/\* /tmp/\* /var/tmp/\*
 
+RUN useradd -ms /bin/bash appliedai
+USER appliedai
+WORKDIR /home/appliedai
+
 # pkg-config \
 # binutils-dev \
 
